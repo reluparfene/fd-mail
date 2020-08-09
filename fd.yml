@@ -7,24 +7,10 @@ services:
     ports:
       - 5202:80
     environment:
-    - LDAP_HOST=172.30.1.75
+    - LDAP_HOST=fd-mail-ldap
     - LDAP_BASE=dc=noit,dc=ro
     - LDAP_ADMIN_PASS=1q2w3e4r
     - SITE=IZIT Solutions
-
-    - LDAP1_HOST=fusiondirectory-openldap-izit
-    - LDAP1_BASE_DN=dc=noit,dc=ro
-    - LDAP1_ADMIN_DN=cn=admin,dc=noit,dc=ro
-    - LDAP1_ADMIN_PASS=1q2w3e$$R
-    - LDAP1_PORT=389
-    - LDAP1_NAME=IZIT Fusion Directory
-
-    #- LDAP2_BASE_DN=dc=example,dc=org
-    #- LDAP2_ADMIN_DN=cn=admin,dc=example,dc=org
-    #- LDAP2_HOST=openldap-fusiondirectory2
-    #- LDAP2_ADMIN_PASS=password2
-    #- LDAP2_NAME=Development
-    #- LDAP2_TLS=TRUE
 
     depends_on:
     -  fd-mail-ldap
