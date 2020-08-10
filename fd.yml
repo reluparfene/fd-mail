@@ -43,4 +43,3 @@ volumes:
 
 networks:
   fusion-izit:
-    external: true
