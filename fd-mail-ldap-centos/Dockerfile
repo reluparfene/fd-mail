@@ -10,4 +10,4 @@ RUN yum -y install openldap openldap-servers openldap-clients net-tools telnet l
 EXPOSE 389
 
 #ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["slapd","-d", "32768", "-u", "ldap", "-g", "ldap", "-h", "ldapi:/// ldap:///"]
+CMD ["slapd","-d", "256", "-u", "ldap", "-g", "ldap", "-h", "ldapi:/// ldap:///"]
