@@ -3,6 +3,7 @@ FROM centos:7
 RUN yum -y install openldap openldap-servers openldap-clients net-tools telnet less vim \
   #
   && cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG \
+  && echo -e "colorscheme desert\nset nocompatible" > /root/.vimrc \
   #
   # clean yum cache
   && yum clean all 

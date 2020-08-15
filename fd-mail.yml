@@ -7,7 +7,7 @@ services:
     ports:
       - 5202:80
     environment:
-    - LDAP_HOST=127.0.0.1
+    - LDAP_HOST=fd-mail-ldap
     - LDAP_BASE=dc=noit,dc=ro
     - LDAP_ADMIN_PASS=1q2w3e4r
     - SITE=Default SITE

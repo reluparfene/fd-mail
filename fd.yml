@@ -11,7 +11,8 @@ services:
     - LDAP_BASE=dc=noit,dc=ro
     - LDAP_ADMIN_PASS=1q2w3e4r
     - SITE=IZIT Solutions
-
+    logging:
+      driver: syslog
     depends_on:
     -  fd-mail-ldap
     networks:
