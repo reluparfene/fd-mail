@@ -3,8 +3,7 @@ services:
 
   fd-mail:
     container_name: fd-mail
-    #image: reluparfene/fd-mail:1.3.1
-    image: fd-mail-init
+    image: reluparfene/fd-mail:1.3.1
     ports:
       - 5202:80
     environment:
@@ -12,7 +11,7 @@ services:
     - LDAP_BASE=dc=noit,dc=ro
     - LDAP_ADMIN_PASS=1q2w3e4r
     - SITE=IZIT Solutions
-    - SENDMAIL_HOST=172.30.1.75
+    - SENDMAIL_HOST=127.0.0.1
     #logging:
     #  driver: syslog
     depends_on:
