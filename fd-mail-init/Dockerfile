@@ -4,7 +4,8 @@ ENV LDAP_HOST=${LDAP_HOST} \
     LDAP_ADMIN_PASS=${LDAP_ADMIN_PASS} \
     SITE=${SITE}
 # install packages
-RUN yum -y install httpd net-tools telnet less epel-release vim http://rpms.remirepo.net/enterprise/remi-release-7.rpm yum-utils \
+RUN yum -y install epel-release 
+RUN yum -y install httpd net-tools telnet less vim yum-utils msmtp http://rpms.remirepo.net/enterprise/remi-release-7.rpm  \
 #
 # install remi
   && yum-config-manager --enable remi-php72 \
@@ -34,7 +35,9 @@ RUN yum -y install httpd net-tools telnet less epel-release vim http://rpms.remi
 # php.ini 
   && sed -i -e "s/;date.timezone =/date.timezone = Europe\/Bucharest/g" /etc/php.ini \
   && sed -i -e "s/expose_php = On/expose_php = Off/g" /etc/php.ini \
+  && sed -i -e "s/sendmail_path = \/usr\/sbin\/sendmail -t -i/sendmail_path = \/usr\/bin\/msmtp -C \/etc\/msmtprc -t/g" /etc/php.ini \
   && echo -e "colorscheme desert\nset nocompatible" > /root/.vimrc \
+  && echo -e "account default\nhost localhost\nport 25" > /etc/msmtprc \
 #
 # remove fusiondirectory.conf original link
   && rm /etc/httpd/conf.d/fusiondirectory.conf 
