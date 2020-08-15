@@ -12,8 +12,8 @@ services:
     - LDAP_ADMIN_PASS=1q2w3e4r
     - SITE=IZIT Solutions
     - SENDMAIL_HOST=127.0.0.1
-    #logging:
-    #  driver: syslog
+    logging:
+      driver: syslog
     depends_on:
     -  fd-mail-ldap
     networks:
