@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+
+  pf-mail:
+    container_name: postfix-mail
+    image: pf-init
+    ports:
+      - 25:25
+    environment:
+    - LDAP_HOST=fd-mail-ldap
+    - LDAP_BASE=dc=noit,dc=ro
+    - LDAP_ADMIN_PASS=1q2w3e4r
+    - SITE=Default SITE
+    logging:
+      driver: syslog
+
+    networks:
+    - fusion-izit
+    restart: always
+
+networks:
+  fusion-izit:
