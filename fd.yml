@@ -17,7 +17,8 @@ services:
     depends_on:
     -  openldap
     networks:
-    - fusion-izit
+      fusion-izit:
+        ipv4_address: 192.168.30.20
     restart: always
 
   openldap:
@@ -31,7 +32,8 @@ services:
       - config:/etc/openldap/slapd.d
       - certs:/etc/openldap/certs
     networks:
-    - fusion-izit
+      fusion-izit:
+        ipv4_address: 192.168.30.21
     restart: always
 
   postfix:
@@ -60,6 +62,10 @@ services:
       driver: syslog
     depends_on:
     -  dovecot
+    networks:
+      fusion-izit:
+        ipv4_address: 192.168.30.22
+    restart: always
 
   dovecot:
     container_name: dovecot
@@ -84,6 +90,10 @@ services:
     - CA=mail.stroici.ro-ca.pem
     logging:
       driver: syslog
+    networks:
+      fusion-izit:
+        ipv4_address: 192.168.30.23
+    restart: always
 
 volumes:
   data:
@@ -101,3 +111,6 @@ volumes:
 
 networks:
   fusion-izit:
+    ipam:
+      config:
+        - subnet: "192.168.30.0/24"
