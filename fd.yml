@@ -1,13 +1,13 @@
 version: '3.7'
 services:
 
-  fd-mail:
-    container_name: fd-mail
+  fusiondirectory:
+    container_name: fusiondirectory
     image: reluparfene/fd-mail:1.3.1
     ports:
       - 5202:80
     environment:
-    - LDAP_HOST=fd-mail-ldap
+    - LDAP_HOST=openldap
     - LDAP_BASE=dc=noit,dc=ro
     - LDAP_ADMIN_PASS=1q2w3e4r
     - SITE=IZIT Solutions
@@ -15,13 +15,13 @@ services:
     logging:
       driver: syslog
     depends_on:
-    -  fd-mail-ldap
+    -  openldap
     networks:
     - fusion-izit
     restart: always
 
-  fd-mail-ldap:
-    container_name: fd-mail-ldap
+  openldap:
+    container_name: openldap
     image: reluparfene/fd-mail-ldap:1.3.1
     ports:
       - 389:389
@@ -30,10 +30,60 @@ services:
       - data:/var/lib/ldap
       - config:/etc/openldap/slapd.d
       - certs:/etc/openldap/certs
-
     networks:
     - fusion-izit
     restart: always
+
+  postfix:
+    container_name: postfix
+    image: reluparfene/fd-mail-postfix
+    ports:
+      - "25:25"
+      - "465:465"
+      - "587:587"
+    volumes:
+      - /dev/log:/dev/log
+      - /etc/pki/tls/certs:/etc/postfix/certs:ro
+      - /etc/pki/tls/private:/etc/postfix/private:ro
+      - pf-auth:/var/spool/postfix/private/dovecot
+      - postfix:/etc/postfix
+    environment:
+    - LDAP_HOST=172.30.1.75
+    - LDAP_BASE=dc=mail-domains,dc=noit,dc=ro
+    - LDAP_ADMIN=cn=admin,dc=noit,dc=ro
+    - LDAP_PASS=1q2w3e4r
+    - LMTP_HOST=172.30.1.75
+    - CERT=mail.stroici.ro.pem
+    - KEY=mail.stroici.ro-key.pem
+    - CA=mail.stroici.ro-ca.pem
+    logging:
+      driver: syslog
+    depends_on:
+    -  dovecot
+
+  dovecot:
+    container_name: dovecot
+    image: reluparfene/fd-mail-dovecot
+    ports:
+      - "24:24"
+      - "143:143"
+    volumes:
+      - /dev/log:/dev/log
+      - /home/vmail:/home/vmail
+      - pf-auth:/home/postfix
+      - /etc/pki/tls/certs:/etc/dovecot/certs:ro
+      - /etc/pki/tls/private:/etc/dovecot/private:ro
+      - dovecot:/etc/dovecot
+    environment:
+    - LDAP_HOST=172.30.1.75
+    - LDAP_BASE=dc=noit,dc=ro
+    - LDAP_ADMIN=cn=admin,dc=noit,dc=ro
+    - LDAP_PASS=1q2w3e4r
+    - CERT=mail.stroici.ro.pem
+    - KEY=mail.stroici.ro-key.pem
+    - CA=mail.stroici.ro-ca.pem
+    logging:
+      driver: syslog
 
 volumes:
   data:
@@ -41,6 +91,12 @@ volumes:
   config:
     driver: local
   certs:
+    driver: local
+  pf-auth:
+    driver: local
+  postfix:
+    driver: local
+  dovecot:
     driver: local
 
 networks:
