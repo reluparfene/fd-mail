@@ -2,7 +2,7 @@ FROM centos:7
 ENV LDAP_HOST=${LDAP_HOST} \
     LDAP_BASE=${LDAP_BASE} \
     LDAP_ADMIN=${LDAP_ADMIN} \
-    LDAP_ADMIN_PASS=${LDAP_ADMIN_PASS} 
+    LDAP_PASS=${LDAP_PASS} 
 #
 # install packages
 RUN yum -y install net-tools telnet less vim dovecot dovecot-pigeonhole \

@@ -17,7 +17,7 @@
 #        by * none
 
 # Space separated list of LDAP hosts to use. host:port is allowed too.
-hosts = LDAP_HOST
+hosts = "LDAP_HOST"
 
 # LDAP URIs to use. You can use this instead of hosts list. Note that this
 # setting isn't supported by all LDAP libraries.
@@ -28,7 +28,7 @@ hosts = LDAP_HOST
 dn = "LDAP_ADMIN"
 
 # Password for LDAP server, if dn is specified.
-dnpass = LDAP_ADMIN_PASS
+dnpass = "LDAP_PASS"
 
 # Use SASL binding instead of the simple binding. Note that this changes
 # ldap_version automatically to be 3 if it's lower.
@@ -89,7 +89,7 @@ ldap_version = 3
 
 # LDAP base. %variables can be used here.
 # For example: dc=mail, dc=example, dc=org
-base = LDAP_BASE
+base = "LDAP_BASE"
 
 # Dereference: never, searching, finding, always
 deref = never
