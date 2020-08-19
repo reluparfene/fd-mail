@@ -1,0 +1,61 @@
+version: '3.7'
+services:
+
+  dovecot:
+    container_name: dovecot
+    image: reluparfene/fd-mail-dovecot
+    ports:
+      - "24:24"
+      - "143:143"
+    volumes:
+      - /dev/log:/dev/log
+      - /home/vmail:/home/vmail
+      - pf-auth:/home/postfix
+      - /etc/pki/tls/certs:/etc/dovecot/certs:ro
+      - /etc/pki/tls/private:/etc/dovecot/private:ro
+    environment:
+    - LDAP_HOST=172.30.1.75
+    - LDAP_BASE=dc=noit,dc=ro
+    - LDAP_ADMIN=cn=admin,dc=noit,dc=ro
+    - LDAP_PASS=1q2w3e4r
+    - CERT=mail.stroici.ro.pem
+    - KEY=mail.stroici.ro-key.pem
+    - CA=mail.stroici.ro-ca.pem
+    logging:
+      driver: syslog
+
+    networks:
+    - fusion-izit
+    restart: always
+
+  postfix:
+    container_name: postfix
+    image: reluparfene/fd-mail-postfix
+    ports:
+      - "25:25"
+      - "465:465"
+      - "587:587"
+    volumes:
+      - /dev/log:/dev/log
+      - /etc/pki/tls/certs:/etc/postfix/certs:ro
+      - /etc/pki/tls/private:/etc/postfix/private:ro
+      - pf-auth:/var/spool/postfix/private/dovecot
+    environment:
+    - LDAP_HOST=172.30.1.75
+    - LDAP_BASE=dc=mail-domains,dc=noit,dc=ro
+    - LDAP_ADMIN=cn=admin,dc=noit,dc=ro
+    - LDAP_PASS=1q2w3e4r
+    - LMTP_HOST=172.30.1.75
+    - CERT=mail.stroici.ro.pem
+    - KEY=mail.stroici.ro-key.pem
+    - CA=mail.stroici.ro-ca.pem
+    logging:
+      driver: syslog
+
+volumes:
+  pf-auth:
+    driver: local
+
+networks:
+  fusion-izit:
+

@@ -2,7 +2,10 @@ FROM centos:7
 ENV LDAP_HOST=${LDAP_HOST} \
     LDAP_BASE=${LDAP_BASE} \
     LDAP_ADMIN=${LDAP_ADMIN} \
-    LDAP_PASS=${LDAP_PASS} 
+    LDAP_PASS=${LDAP_PASS} \
+    CERT=${CERT} \
+    KEY=${KEY} \
+    CA=${CA}
 #
 # install packages
 RUN yum -y install net-tools telnet less vim dovecot dovecot-pigeonhole \
@@ -21,6 +24,7 @@ RUN yum -y install net-tools telnet less vim dovecot dovecot-pigeonhole \
   COPY 10-auth.conf /etc/dovecot/conf.d
   COPY 10-mail.conf /etc/dovecot/conf.d
   COPY 10-master.conf /etc/dovecot/conf.d
+  COPY 10-ssl.conf /etc/dovecot/conf.d
   COPY 20-imap.conf /etc/dovecot/conf.d
   COPY 90-quota.conf /etc/dovecot/conf.d
   #

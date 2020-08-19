@@ -680,11 +680,11 @@ readme_directory = /usr/share/doc/postfix-2.10.1/README_FILES
 
 
 # ldap
-ldap_bind_dn = cn=admin,dc=noit,dc=ro
-ldap_bind_pw = 1q2w3e4r
-ldap_search_base = dc=mail-domains,dc=noit,dc=ro
+ldap_bind_dn = LDAP_ADMIN
+ldap_bind_pw = LDAP_PASS
+ldap_search_base = LDAP_BASE
 #ldap_domain = dc=noit,dc=ro
-ldap_server_host = 127.0.0.1
+ldap_server_host = LDAP_HOST
 #ldap_server_port = 389
 ldap_version = 3
 
@@ -701,7 +701,7 @@ vd_bind_pw = $ldap_bind_pw
 vd_version = $ldap_version
 
 relay_domains = hash:/etc/postfix/relay_domains, ldap:vd
-relay_transport = lmtp:[127.0.0.1]
+relay_transport = lmtp:[LMTP_HOST]
 transport_maps = hash:/etc/postfix/relay_domains
 
 address_verify_map = btree:$data_directory/verify_cache
@@ -716,16 +716,16 @@ unverified_recipient_reject_code = 577
 # AUTH with dovecot
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_type = dovecot
-smtpd_sasl_path = private/auth
+smtpd_sasl_path = private/dovecot/auth
 broken_sasl_auth_clients = yes
 #smtpd_sasl_security_options = noanonymous, noplaintext
 smtpd_sasl_security_options = noanonymous
 smtpd_sasl_tls_security_options = noanonymous
 
 #TLS
-smtpd_tls_cert_file = /etc/pki/tls/certs/mail.stroici.ro.pem
-smtpd_tls_key_file = /etc/pki/tls/private/mail.stroici.ro-key.pem
-smtpd_tls_CAfile = /etc/pki/tls/certs/mail.stroici.ro-ca.pem
+smtpd_tls_cert_file = /etc/postfix/certs/CERT
+smtpd_tls_key_file = /etc/postfix/private/KEY
+smtpd_tls_CAfile = /etc/postfix/certs/CA
 smtp_tls_security_level = may
 smtpd_tls_security_level = may
 
