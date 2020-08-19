@@ -3,7 +3,7 @@ services:
 
   pf-mail:
     container_name: dovecot-mail
-    image: dv-init
+    image: reluparfene/fd-mail-dovecot
     ports:
       - "24:24"
       - "143:143"
@@ -11,7 +11,7 @@ services:
       - /home/vmail:/home/vmail
       - pf-auth:/home/postfix
     environment:
-    - LDAP_HOST=172.30.1.75
+    - LDAP_HOST=172.30.10.1
     - LDAP_BASE=dc=noit,dc=ro
     - LDAP_ADMIN=cn=admin,dc=noit,dc=ro
     - LDAP_PASS=1q2w3e4r
