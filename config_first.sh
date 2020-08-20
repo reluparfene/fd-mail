@@ -1,5 +1,8 @@
 #!/bin/sh
 cp apache/fd-web.conf /etc/httpd/conf.d
-systemctl restart httpd
-groupadd -g 10000 vmail
-useradd -g 10000 -u 10000 -s /sbin/nologin vmail
+/bin/systemctl restart httpd
+/sbin/groupadd -g 10000 vmail
+/sbin/useradd -g 10000 -u 10000 -s /sbin/nologin vmail
+/bin/newaliases
+/bin/systemctl stop postfix dovecot
+/bin/systemctl disable postfix dovecot
