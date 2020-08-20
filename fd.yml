@@ -11,7 +11,7 @@ services:
     - LDAP_BASE=dc=noit,dc=ro
     - LDAP_ADMIN_PASS=1q2w3e4r
     - SITE=IZIT Solutions
-    - SENDMAIL_HOST=127.0.0.1
+    - SENDMAIL_HOST=postfix
     logging:
       driver: syslog
     depends_on:
@@ -50,11 +50,11 @@ services:
       - pf-auth:/var/spool/postfix/private/dovecot
       - postfix:/etc/postfix
     environment:
-    - LDAP_HOST=172.30.1.75
+    - LDAP_HOST=openldap
     - LDAP_BASE=dc=mail-domains,dc=noit,dc=ro
     - LDAP_ADMIN=cn=admin,dc=noit,dc=ro
     - LDAP_PASS=1q2w3e4r
-    - LMTP_HOST=172.30.1.75
+    - LMTP_HOST=dovecot
     - CERT=mail.stroici.ro.pem
     - KEY=mail.stroici.ro-key.pem
     - CA=mail.stroici.ro-ca.pem
@@ -71,7 +71,7 @@ services:
     container_name: dovecot
     image: reluparfene/fd-mail-dovecot
     ports:
-      - "24:24"
+      #- "24:24"
       - "143:143"
     volumes:
       - /dev/log:/dev/log
@@ -81,7 +81,7 @@ services:
       - /etc/pki/tls/private:/etc/dovecot/private:ro
       - dovecot:/etc/dovecot
     environment:
-    - LDAP_HOST=172.30.1.75
+    - LDAP_HOST=openldap
     - LDAP_BASE=dc=noit,dc=ro
     - LDAP_ADMIN=cn=admin,dc=noit,dc=ro
     - LDAP_PASS=1q2w3e4r
