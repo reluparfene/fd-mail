@@ -13,7 +13,7 @@ services:
 #      - certs:/etc/openldap/certs
 
     networks:
-    - fusion-izit
+    - fusiondirectory
     restart: always
 
 #volumes:
@@ -25,4 +25,5 @@ services:
 #    driver: local
 
 networks:
-  fusion-izit:
+  fusiondirectory:
+    external: true

@@ -1,15 +1,16 @@
-version: '3.7'
+version: '3.8'
 services:
 
   fd-mail:
-    container_name: fd-mail
-    image: reluparfene/fd-mail:1.3.1
+    container_name: fusiondirectory
+    image: reluparfene/fusiondirectory:1.3.1
     ports:
       - 5202:80
     environment:
     - LDAP_HOST=fd-mail-ldap
     - LDAP_BASE=dc=noit,dc=ro
-    - LDAP_ADMIN_PASS=1q2w3e4r
+    - LDAP_ADMIN=cn=admin,dc=noit,dc=ro
+    - LDAP_PASS=1q2w3e4r
     - SITE=Default SITE
 
     networks:
@@ -17,4 +18,5 @@ services:
     restart: always
 
 networks:
-  fusion-izit:
+  fusiondirectory:
+    external: true

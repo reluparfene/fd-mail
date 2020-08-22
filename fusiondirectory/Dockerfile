@@ -1,8 +1,10 @@
 FROM centos:7
 ENV LDAP_HOST=${LDAP_HOST} \
     LDAP_BASE=${LDAP_BASE} \
-    LDAP_ADMIN_PASS=${LDAP_ADMIN_PASS} \
-    SITE=${SITE}
+    LDAP_ADMIN=${LDAP_ADMIN} \
+    LDAP_PASS=${LDAP_PASS} \
+    SITE=${SITE} \
+    FUSIONDIRECTORY_VERSION=1.3.1
 # install packages
 RUN yum -y install epel-release 
 RUN yum -y install httpd net-tools telnet less vim yum-utils msmtp http://rpms.remirepo.net/enterprise/remi-release-7.rpm  \
