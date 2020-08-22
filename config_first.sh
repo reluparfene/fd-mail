@@ -6,3 +6,4 @@ cp apache/fd-web.conf /etc/httpd/conf.d
 /bin/newaliases
 /bin/systemctl stop postfix dovecot
 /bin/systemctl disable postfix dovecot
+/bin/docker login
