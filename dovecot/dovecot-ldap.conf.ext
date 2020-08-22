@@ -113,7 +113,8 @@ user_attrs = gosaMailQuota=quota_rule=*:storage=%$G, =uid=10000, =gid=10000, hom
 #   %u - username
 #   %n - user part in user@domain, same as %u if there's no domain
 #   %d - domain part in user@domain, empty if user there's no domain
-user_filter = (&(objectClass=gosaMailAccount)(mail=%u))
+#user_filter = (&(objectClass=gosaMailAccount)(mail=%u))
+user_filter = (&(|(objectClass=gosaMailAccount)(objectClass=mailAliasDistribution))(mail=%u))
 
 # Password checking attributes:
 #  user: Virtual user name (user@domain), if you wish to change the
@@ -121,7 +122,8 @@ user_filter = (&(objectClass=gosaMailAccount)(mail=%u))
 #  password: Password, may optionally start with {type}, eg. {crypt}
 # There are also other special fields which can be returned, see
 # http://wiki2.dovecot.org/PasswordDatabase/ExtraFields
-pass_attrs = mail=user, userPassword=password, gosaMailQuota=userdb_quota_rule=*:storage=%$G, =userdb_uid=10000, =userdb_gid=10000, =userdb_home=/home/vmail/%Ld/%Ln
+#pass_attrs = mail=user, userPassword=password, gosaMailQuota=userdb_quota_rule=*:storage=%$G, =userdb_uid=10000, =userdb_gid=10000, =userdb_home=/home/vmail/%Ld/%Ln
+pass_attrs = mail=user, userPassword=password, {SSHA}gosaMailAlternateAddress=password, gosaMailQuota=userdb_quota_rule=*:storage=%$G, =userdb_uid=10000, =userdb_gid=10000, =userdb_home=/home/vmail/%Ld/%Ln
 
 # If you wish to avoid two LDAP lookups (passdb + userdb), you can use
 # userdb prefetch instead of userdb ldap in dovecot.conf. In that case you'll
@@ -131,11 +133,13 @@ pass_attrs = mail=user, userPassword=password, gosaMailQuota=userdb_quota_rule=*
 #  homeDirectory=userdb_home,uidNumber=userdb_uid,gidNumber=userdb_gid
 
 # Filter for password lookups
-pass_filter = (&(objectClass=gosaMailAccount)(mail=%u))
+#pass_filter = (&(objectClass=gosaMailAccount)(mail=%u))
+pass_filter = (&(|(objectClass=gosaMailAccount)(objectClass=mailAliasDistribution))(mail=%u))
 
 # Attributes and filter to get a list of all users
 iterate_attrs = mail=user
-iterate_filter = (objectClass=gosaMailAccount)
+#iterate_filter = (objectClass=gosaMailAccount)
+iterate_filter = (|(objectClass=gosaMailAccount)(objectClass=mailAliasDistribution))
 
 # Default password scheme. "{scheme}" before password overrides this.
 # List of supported schemes is in: http://wiki2.dovecot.org/Authentication
